@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.gis',
      'rest_framework',
      'rest_framework.authtoken',
-     'profiles'
+     'profiles',
+     'locations'
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,7 @@ WSGI_APPLICATION = 'whogotit.wsgi.application'
 
 DATABASES = {
     'default': {
-       'ENGINE':'django.db.backends.postgresql_psycopg2',
+       'ENGINE':'django.contrib.gis.db.backends.postgis',
        'NAME': 'whogotit',
         'USER': 'postgres',
         'PASSWORD': 'postgres',

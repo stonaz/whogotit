@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/v1/profile/', include('profiles.urls'))
+    url(r'^api/v1/profile/', include('profiles.urls')),
+    url(r'^api/v1/locations/', include('locations.urls'))
 ]
 

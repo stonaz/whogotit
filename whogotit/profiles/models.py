@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.contrib.auth.models import User
-from django.db import models
+from django.contrib.gis.db import models
 from django.utils.timezone import utc
 from django.utils.translation import ugettext_lazy as _
 from django.utils.http import int_to_base36
@@ -38,6 +38,7 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
     
+  
     
 class PasswordResetManager(models.Manager):
     """ Password Reset Manager """
