@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.contrib.gis.db import models
 from django.utils.translation import ugettext_lazy as _
-from profiles.models import UserProfile
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField( _("Nome"),max_length=40,help_text=_("Nome"),blank=True,null=True)
@@ -14,7 +14,7 @@ class Category(models.Model):
     
 class Location(models.Model):
     # This line is required. Links UserProfile to a User model instance.
-    user = models.ForeignKey(UserProfile,related_name='owner')
+    owner = models.ForeignKey(User,related_name='owner')
     name = models.CharField( _("Nome"),max_length=40,help_text=_("Nome"),blank=True,null=True)
     # The additional attributes we wish to include.
     coords = models.PointField(blank=True)
@@ -24,5 +24,5 @@ class Location(models.Model):
     def __unicode__(self):
         return self.name
     def username(self):
-        return self.user.user.username
+        return self.owner.username
 # Create your models here.

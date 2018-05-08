@@ -2,11 +2,33 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from rest_framework import generics
+
+from rest_framework import generics, permissions, authentication
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+
 from .models import Location
 from .serializers import *
+from .permissions import IsOwnerOrReadOnly,IsOwner
 # Create your views here.
+
+class Locations(generics.ListCreateAPIView):
+    """
+    ### GET
+    
+    Retrieve locations.
+        
+    """
+    
+    authentication_classes = (SessionAuthentication,)
+    serializer_class = ListLocationSerializer
+    model = Location
+    queryset = Location.objects.all()   
+
+locations = Locations.as_view()
+
 class LocationList(generics.ListCreateAPIView):
     """
     ### GET
@@ -21,3 +43,27 @@ class LocationList(generics.ListCreateAPIView):
     queryset = Location.objects.all()   
 
 location_list = LocationList.as_view()
+
+class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    ### GET
+    
+    Retrieve details of Location
+        
+    """
+    
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly )
+    authentication_classes = (SessionAuthentication,)
+    serializer_class= LocationSerializer
+    model=Location
+    
+    def get_queryset(self):
+        #user = self.kwargs.get('user', None)
+        location_id = self.kwargs.get('pk', None)
+        # try:
+        #     user_id=User.objects.get(username=user)
+        # except Exception:
+        #     raise Http404(_('Not found'))
+        return Location.objects.all().filter(id=location_id)
+
+location_detail = LocationDetail.as_view()
