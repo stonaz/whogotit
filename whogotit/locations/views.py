@@ -9,10 +9,41 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
-from .models import Location
+from .models import Location,Category
 from .serializers import *
 from .permissions import IsOwnerOrReadOnly,IsOwner
 # Create your views here.
+
+class CategoryLocationsView(generics.ListAPIView):
+    """
+    ### GET
+    
+    Retrieve Categories.
+        
+    """
+    
+    authentication_classes = (SessionAuthentication,)
+    serializer_class = CategoryLocationsSerializer
+    model = Category
+    queryset = Category.objects.all()   
+
+category_locations = CategoryLocationsView.as_view()
+
+
+class HyperLinkLocationList(generics.ListAPIView):
+    """
+    ### GET
+    
+    Retrieve locations.
+        
+    """
+    
+    authentication_classes = (SessionAuthentication,)
+    serializer_class = HyperlinkLocationSerializer
+    model = Location
+    queryset = Location.objects.all()   
+
+hyperlinklist = HyperLinkLocationList.as_view()
 
 class Locations(generics.ListCreateAPIView):
     """
